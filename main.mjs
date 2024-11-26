@@ -1,5 +1,7 @@
 // Creates a node that's composed of a value and a pointer to its next node.
 
+import { sort } from "semver";
+
 class Node {
   // Constructor
   constructor(data = null, left = null, right = null) {
@@ -14,11 +16,18 @@ class Tree {
   constructor(TreeArray) {
     this.TreeArray = TreeArray;
   }
-  
+
   // Methods
 
-  buildTree(array) {
-    let n = array.length;
+  sortAndDedupe(array){
+    let uniqueAndSorted = [...new Set(array)].sort(function (a, b) { return a*1 - b*1; })
+    uniqueAndSorted = uniqueAndSorted.join(" ").trim().split(' ');
+    uniqueAndSorted = uniqueAndSorted.map(Number);
+    return uniqueAndSorted
+  }
+
+  buildTree(arr) {
+    let n = arr.length;
 
     if (n === 0) return null;
 
@@ -71,9 +80,10 @@ class Tree {
 
 const test = new Tree();
 
-let arr = [1, 2, 3, 4];
-let root = test.buildTree(arr);
-// test.preOrder(root);
+let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+
+let sortedDedupedArray = test.sortAndDedupe(arr)
+let root = test.buildTree(sortedDedupedArray);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
@@ -88,5 +98,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
   };
  
-// prettyPrint(root);
-console.log(root)
+prettyPrint(root);
