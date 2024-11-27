@@ -138,7 +138,7 @@ class Tree {
   // on each node as it traverses, passing the whole node as an argument, similarly to how
   // Array.prototype.forEach might work for arrays.
   levelOrder(root, callback) {
-    traversingArray = []
+    traversingArray = [];
     if (root === null) return "Tree is empty";
     if (callback === undefined) throw new Error("callback function required");
     let queue = [root];
@@ -186,7 +186,6 @@ class Tree {
   // Write a height(node) function that returns the given node’s height. Height is defined as
   // the number of edges in the longest path from a given node to a leaf node.
   height(node) {
-
     if (node === null) return -1;
     let leftHeight = this.height(node.left);
     let rightHeight = this.height(node.right);
@@ -201,13 +200,21 @@ class Tree {
     let rightDepth = this.depth(root.right, node);
     if (leftDepth === -1 && rightDepth === -1) {
       return -1;
-  }
-    return (Math.max(leftDepth, rightDepth) + 1);
+    }
+    return Math.max(leftDepth, rightDepth) + 1;
   }
   // Write an isBalanced function that checks if the tree is balanced. A balanced tree
   // is one where the difference between heights of the left subtree and the right subtree of
   // every node is not more than 1.
-  isBalanced() {}
+  isBalanced(root) {
+    if (root !== null) {
+      if (this.height(root.right) - this.height(root.left) > 1)
+        return false;
+      if(this.isBalanced(root.left) && this.isBalanced(root.right)) return true;
+      else return false
+    }
+    return true;
+  }
   // Write a rebalance function that rebalances an unbalanced tree.
   rebalance() {}
 }
@@ -230,10 +237,9 @@ function pushDataToArray(data) {
   return traversingArray;
 }
 
-function countDepth(node){
-counter++;
+function countDepth(node) {
+  counter++;
 }
-
 
 const test = new Tree();
 let traversingArray = [];
@@ -244,11 +250,12 @@ let root = test.buildTree(arr);
 // prettyPrint(root);
 console.log(test.find(root, "324"));
 // prettyPrint(root);
-root = test.insert(root, 10);
-root = test.delete(root, 10);
+// root = test.insert(root, 10);
+// root = test.delete(root, 10);
 // console.log(test.levelOrder(root, pushDataToArray));
 // console.log(test.height(test.find(root, "8")))
-console.log(test.depth(root, test.find(root, "6345")))
+// console.log(test.depth(root, test.find(root, "6345")));
+console.log(test.isBalanced(root));
 // console.log(test.height(Object(23)))
 // console.log(test.preOrder(root, pushDataToArray));
 // traversingArray = [];
