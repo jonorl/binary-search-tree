@@ -140,7 +140,9 @@ class Tree {
   // on each node as it traverses, passing the whole node as an argument, similarly to how
   // Array.prototype.forEach might work for arrays.
   levelOrder(root, callback) {
+    traversingArray = []
     if (root === null) return "Tree is empty";
+    if (callback === undefined) throw new Error("callback function required");
     let queue = [root];
     while (queue.length !== 0) {
       callback(queue[0].data);
@@ -152,16 +154,37 @@ class Tree {
       }
       queue.shift();
     }
-    return;
+    return traversingArray;
   }
 
   // Write inOrder(callback), preOrder(callback), and postOrder(callback) functions that also
   // accept a callback as a parameter. Each of these functions should traverse the tree in their
   // respective depth-first order and pass each node to the provided callback. The functions
   // should throw an Error if no callback is given as an argument, like with levelOrder.
-  inOrder(callback) {}
-  preOrder(callback) {}
-  postOrder(callbal) {}
+  inOrder(root, callback) {
+    if (root === null) return "tree is empty";
+    if (callback === undefined) throw new Error("callback function required");
+    this.inOrder(root.left, callback);
+    callback(root.data);
+    this.inOrder(root.right, callback);
+    return traversingArray;
+  }
+  preOrder(root, callback) {
+    if (root === null) return "tree is empty";
+    if (callback === undefined) throw new Error("callback function required");
+    callback(root.data);
+    this.preOrder(root.left, callback);
+    this.preOrder(root.right, callback);
+    return traversingArray;
+  }
+  postOrder(root, callback) {
+    if (root === null) return "tree is empty";
+    if (callback === undefined) throw new Error("callback function required");
+    this.postOrder(root.left, callback);
+    this.postOrder(root.right, callback);
+    callback(root.data);
+    return traversingArray;
+  }
   // Write a height(node) function that returns the given node’s height. Height is defined as
   // the number of edges in the longest path from a given node to a leaf node.
   height(node) {}
@@ -191,8 +214,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 function sth(data) {
   traversingArray.push(data);
-  console.log("array");
-  console.log(traversingArray);
   return traversingArray;
 }
 
@@ -202,10 +223,17 @@ let traversingArray = [];
 let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let root = test.buildTree(arr);
 // prettyPrint(root);
-console.log(test.find(root, "6345"));
+console.log(test.find(root, "324"));
 // prettyPrint(root);
 root = test.insert(root, 10);
 root = test.delete(root, 10);
-console.log(test.levelOrder(root, sth));
+// console.log(test.levelOrder(root, sth));
+// console.log(test.levelOrder(root, sth));
+console.log(test.preOrder(root, sth));
+traversingArray = [];
+console.log(test.inOrder(root, sth));
+traversingArray = [];
+console.log(test.postOrder(root, sth));
+traversingArray = [];
 
 prettyPrint(root);
