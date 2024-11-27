@@ -127,9 +127,7 @@ class Tree {
   // Write a find(value) function that returns the node with the given value.
   find(root, data) {
     if (root === null) return "Tree is empty";
-
     if (root.data == data) return root;
-
     if (data < root.data) return this.find(root.left, data);
     else if (data > root.data) return this.find(root.right, data);
 
@@ -154,7 +152,7 @@ class Tree {
       }
       queue.shift();
     }
-    return traversingArray;
+    return;
   }
 
   // Write inOrder(callback), preOrder(callback), and postOrder(callback) functions that also
@@ -167,7 +165,7 @@ class Tree {
     this.inOrder(root.left, callback);
     callback(root.data);
     this.inOrder(root.right, callback);
-    return traversingArray;
+    return;
   }
   preOrder(root, callback) {
     if (root === null) return "tree is empty";
@@ -175,7 +173,7 @@ class Tree {
     callback(root.data);
     this.preOrder(root.left, callback);
     this.preOrder(root.right, callback);
-    return traversingArray;
+    return;
   }
   postOrder(root, callback) {
     if (root === null) return "tree is empty";
@@ -183,14 +181,29 @@ class Tree {
     this.postOrder(root.left, callback);
     this.postOrder(root.right, callback);
     callback(root.data);
-    return traversingArray;
+    return;
   }
   // Write a height(node) function that returns the given node’s height. Height is defined as
   // the number of edges in the longest path from a given node to a leaf node.
-  height(node) {}
+  height(node) {
+
+    if (node === null) return -1;
+    let leftHeight = this.height(node.left);
+    let rightHeight = this.height(node.right);
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
   // Write a depth(node) function that returns the given node’s depth. Depth is defined as
   // the number of edges in the path from a given node to the tree’s root node.
-  depth(node) {}
+  depth(root, node) {
+    if (root === node) return 0;
+    if (root === null || node === null) return -1;
+    let leftDepth = this.depth(root.left, node);
+    let rightDepth = this.depth(root.right, node);
+    if (leftDepth === -1 && rightDepth === -1) {
+      return -1;
+  }
+    return (Math.max(leftDepth, rightDepth) + 1);
+  }
   // Write an isBalanced function that checks if the tree is balanced. A balanced tree
   // is one where the difference between heights of the left subtree and the right subtree of
   // every node is not more than 1.
@@ -212,13 +225,19 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-function sth(data) {
+function pushDataToArray(data) {
   traversingArray.push(data);
   return traversingArray;
 }
 
+function countDepth(node){
+counter++;
+}
+
+
 const test = new Tree();
 let traversingArray = [];
+let counter = 0;
 
 let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let root = test.buildTree(arr);
@@ -227,13 +246,15 @@ console.log(test.find(root, "324"));
 // prettyPrint(root);
 root = test.insert(root, 10);
 root = test.delete(root, 10);
-// console.log(test.levelOrder(root, sth));
-// console.log(test.levelOrder(root, sth));
-console.log(test.preOrder(root, sth));
-traversingArray = [];
-console.log(test.inOrder(root, sth));
-traversingArray = [];
-console.log(test.postOrder(root, sth));
-traversingArray = [];
+// console.log(test.levelOrder(root, pushDataToArray));
+// console.log(test.height(test.find(root, "8")))
+console.log(test.depth(root, test.find(root, "6345")))
+// console.log(test.height(Object(23)))
+// console.log(test.preOrder(root, pushDataToArray));
+// traversingArray = [];
+// console.log(test.inOrder(root, pushDataToArray));
+// traversingArray = [];
+// console.log(test.postOrder(root, pushDataToArray));
+// traversingArray = [];
 
 prettyPrint(root);
