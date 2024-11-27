@@ -74,11 +74,66 @@ class Tree {
     return root;
   }
   // Write an insert(value)function that inserts the given value.
-  insert(value) {}
+  insert(root, data) {
+    if (root === null)
+      return new Node(data);
+      
+    // Duplicates not allowed    
+    if (root.data === data)
+        return root;
+        
+    if (data < root.data)
+        root.left = this.insert(root.left, data);
+    else if (data > root.data)
+        root.right = this.insert(root.right, data);
+
+    return root;
+  }
+
+  // Helper method to get the left grandchild of the right child
+  getSuccessor(curr){
+    curr = curr.right;
+    while (curr !== null && curr.left !== null) {
+        curr = curr.left;
+    }
+    return curr;
+  }
+
   // Write a deleteItem(value)function that deletes the given value.
-  delete(value) {}
+  delete(root, data) {
+    // Base case
+    if (root === null) {
+        return root;
+    }
+
+    // If key to be searched is in a subtree
+    if (root.data > data) {
+        root.left = this.delete(root.left, data);
+    } else if (root.data < data) {
+        root.right = this.delete(root.right, data);
+    } else {
+        // If root matches with the given key
+
+        // Cases when root has 0 children or 
+        // only right child
+        if (root.left === null) 
+            return root.right;
+
+        // When root has only left child
+        if (root.right === null) 
+            return root.left;
+
+        // When both children are present
+        let succ = this.getSuccessor(root);
+        root.data = succ.data;
+        root.right = this.delete(root.right, succ.key);
+    }
+    return root;
+  }
   // Write a find(value) function that returns the node with the given value.
-  find(value) {}
+  find(value) {
+
+  }
   // Write a levelOrder(callback) function that accepts a callback function as its parameter.
   // levelOrder should traverse the tree in breadth-first level order and call the callback
   // on each node as it traverses, passing the whole node as an argument, similarly to how
@@ -110,6 +165,9 @@ const test = new Tree();
 
 let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let root = test.buildTree(arr);
+root = test.insert(root, 10);
+root = test.delete(root, 10)
+
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
