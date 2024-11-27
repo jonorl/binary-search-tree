@@ -126,21 +126,43 @@ class Tree {
   }
   // Write a find(value) function that returns the node with the given value.
   find(root, data) {
-    let rootTmp = root;
-    if (rootTmp === null) return "Tree is empty";
+    if (root === null) return "Tree is empty";
 
-    if (rootTmp.data == data) return rootTmp;
+    if (root.data == data) return root;
 
-    if (data < rootTmp.data) return this.find(rootTmp.left, data);
-    else if (data > rootTmp.data) return this.find(rootTmp.right, data);
+    if (data < root.data) return this.find(root.left, data);
+    else if (data > root.data) return this.find(root.right, data);
 
-    return rootTmp;
+    return root;
   }
   // Write a levelOrder(callback) function that accepts a callback function as its parameter.
   // levelOrder should traverse the tree in breadth-first level order and call the callback
   // on each node as it traverses, passing the whole node as an argument, similarly to how
   // Array.prototype.forEach might work for arrays.
-  levelOrder(callback) {}
+  levelOrder(root, callback) {
+    let queue = []
+    if (root === null) return "Tree is empty";
+    queue.push(root)
+    callback(root.data);
+    queue = queue.filter(function(item) {
+      return item !== root
+  })
+    if (root.left !== null){
+      queue.push(root.left)
+      callback(root.left.data)
+    }
+    if (root.right !== null){
+      queue.push(root.right)
+      callback(root.right.data)
+    }
+
+    queue = queue.filter(function(item) {
+      return item !== root.right});
+    queue = queue.filter(function(item) {
+      return item !== root.left});
+
+    return queue;
+  }
 
   // Write inOrder(callback), preOrder(callback), and postOrder(callback) functions that also
   // accept a callback as a parameter. Each of these functions should traverse the tree in their
@@ -176,7 +198,15 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
+function sth(data){
+  traversingArray.push(data);
+  console.log("array")
+  console.log(traversingArray)
+  return traversingArray;
+}
+
 const test = new Tree();
+let traversingArray = [];
 
 let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let root = test.buildTree(arr);
@@ -185,5 +215,6 @@ console.log(test.find(root, "6345"));
 // prettyPrint(root);
 root = test.insert(root, 10);
 root = test.delete(root, 10);
+console.log(test.levelOrder(root, sth))
 
 prettyPrint(root);
