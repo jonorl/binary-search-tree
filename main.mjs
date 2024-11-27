@@ -140,28 +140,19 @@ class Tree {
   // on each node as it traverses, passing the whole node as an argument, similarly to how
   // Array.prototype.forEach might work for arrays.
   levelOrder(root, callback) {
-    let queue = []
     if (root === null) return "Tree is empty";
-    queue.push(root)
-    callback(root.data);
-    queue = queue.filter(function(item) {
-      return item !== root
-  })
-    if (root.left !== null){
-      queue.push(root.left)
-      callback(root.left.data)
+    let queue = [root];
+    while (queue.length !== 0) {
+      callback(queue[0].data);
+      if (queue[0].left !== null) {
+        queue.push(queue[0].left);
+      }
+      if (queue[0].right !== null) {
+        queue.push(queue[0].right);
+      }
+      queue.shift();
     }
-    if (root.right !== null){
-      queue.push(root.right)
-      callback(root.right.data)
-    }
-
-    queue = queue.filter(function(item) {
-      return item !== root.right});
-    queue = queue.filter(function(item) {
-      return item !== root.left});
-
-    return queue;
+    return;
   }
 
   // Write inOrder(callback), preOrder(callback), and postOrder(callback) functions that also
@@ -198,10 +189,10 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-function sth(data){
+function sth(data) {
   traversingArray.push(data);
-  console.log("array")
-  console.log(traversingArray)
+  console.log("array");
+  console.log(traversingArray);
   return traversingArray;
 }
 
@@ -215,6 +206,6 @@ console.log(test.find(root, "6345"));
 // prettyPrint(root);
 root = test.insert(root, 10);
 root = test.delete(root, 10);
-console.log(test.levelOrder(root, sth))
+console.log(test.levelOrder(root, sth));
 
 prettyPrint(root);
