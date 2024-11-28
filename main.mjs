@@ -26,9 +26,8 @@ export function pushDataToArray(data) {
 
 const test = new Tree();
 export let traversingArray = [];
-let counter = 0;
-let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-let root = test.buildTree(arr);
+let arrObj = {arr: [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]};
+let root = test.buildTree(arrObj.arr);
 
 // testing 
 
@@ -43,7 +42,7 @@ let root = test.buildTree(arr);
 // console.log(test.depth(root, test.find(root, "6345")));
 // console.log(test.isBalanced(root));
 // prettyPrint(root);
-// console.log(test.rebalance(root));
+// test.rebalance(root);
 // console.log(test.preOrder(root, pushDataToArray));
 // console.log(traversingArray)
 // traversingArray = [];

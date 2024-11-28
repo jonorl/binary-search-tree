@@ -224,6 +224,7 @@ export class Tree {
     if (root === null) return "tree is empty";
     if (this.isBalanced(root) === false) {
       this.levelOrder(root, pushDataToArray);
+      root = this.buildTree(traversingArray)
       return prettyPrint(this.buildTree(traversingArray));
     }
   }
