@@ -1,6 +1,6 @@
 // Imports
 
-import {pushDataToArray, traversingArray, prettyPrint} from "./main.mjs"
+import { pushDataToArray, traversingArray, prettyPrint } from "./main.mjs";
 
 // classes
 
@@ -190,10 +190,13 @@ export class Tree {
   // Write a height(node) function that returns the given node’s height. Height is defined as
   // the number of edges in the longest path from a given node to a leaf node.
   height(node) {
-    if (node === null) return -1;
+    if (node === null) return 0;
     let leftHeight = this.height(node.left);
     let rightHeight = this.height(node.right);
-    return Math.max(leftHeight, rightHeight) + 1;
+    if(Math.abs(leftHeight - rightHeight) > 1){
+      return -1;
+    }
+    else return Math.max(leftHeight, rightHeight) + 1;
   }
   // Write a depth(node) function that returns the given node’s depth. Depth is defined as
   // the number of edges in the path from a given node to the tree’s root node.
@@ -211,23 +214,31 @@ export class Tree {
   // is one where the difference between heights of the left subtree and the right subtree of
   // every node is not more than 1.
   isBalanced(root) {
-    if (root !== null) {
-      if (this.height(root.right) - this.height(root.left) > 1) return false;
-      if (this.isBalanced(root.left) && this.isBalanced(root.right))
-        return true;
-      else return false;
+    if (root === null) {
+      return true;
     }
-    return true;
+    if (this.height(root) === -1) {
+      return false;
+    } else {
+      return this.isBalanced(root.left) && this.isBalanced(root.right);
+    }
+
+    //   if (this.height(root.right) - this.height(root.left) > 1) return false;
+    //   if (this.isBalanced(root.left) && this.isBalanced(root.right))
+    //     return true;
+    //   else return false;
+    // }
+    // return true;
   }
   // Write a rebalance function that rebalances an unbalanced tree.
   rebalance(root) {
     if (root === null) return "tree is empty";
     if (this.isBalanced(root) === false) {
       this.levelOrder(root, pushDataToArray);
-      root = this.buildTree(traversingArray)
-      return prettyPrint(this.buildTree(traversingArray));
+      root = this.buildTree(traversingArray);
+      prettyPrint(this.buildTree(traversingArray));
+      return root;
     }
+    return root;
   }
 }
-
-

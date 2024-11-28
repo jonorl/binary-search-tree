@@ -1,6 +1,6 @@
 // Imports
 
-import {Tree} from "./class.mjs"
+import { Tree } from "./class.mjs";
 
 // Auxiliary functions
 
@@ -22,14 +22,23 @@ export function pushDataToArray(data) {
   return traversingArray;
 }
 
+function generateRandomArray() {
+  for (let i = 0; i < Math.floor(Math.random() * 100); i++) {
+    arrObj.arr.push(Math.floor(Math.random() * 100));
+  }
+  console.log(arrObj.arr)
+}
+
 // variable initialisation
 
 const test = new Tree();
 export let traversingArray = [];
-let arrObj = {arr: [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]};
+let arrObj = { arr: [] };
+generateRandomArray();
 let root = test.buildTree(arrObj.arr);
 
-// testing 
+
+// testing
 
 // prettyPrint(root);
 // console.log(test.find(root, "324"));
@@ -40,9 +49,11 @@ let root = test.buildTree(arrObj.arr);
 // console.log(traversingArray)
 // console.log(test.height(test.find(root, "8")))
 // console.log(test.depth(root, test.find(root, "6345")));
+prettyPrint(root);
 // console.log(test.isBalanced(root));
 // prettyPrint(root);
 // test.rebalance(root);
+// console.log(test.isBalanced(test.rebalance(root)));
 // console.log(test.preOrder(root, pushDataToArray));
 // console.log(traversingArray)
 // traversingArray = [];
@@ -52,5 +63,4 @@ let root = test.buildTree(arrObj.arr);
 // console.log(test.postOrder(root, pushDataToArray));
 // console.log(traversingArray)
 // traversingArray = [];
-prettyPrint(root);
 
